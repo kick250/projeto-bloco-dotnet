@@ -2,7 +2,7 @@
 
 namespace Entities;
 
-public class ServicePost
+public class Post
 {
 
 }
