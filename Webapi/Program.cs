@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using Repository;
+
 namespace Webapi;
 
 public class Program
@@ -9,10 +12,20 @@ public class Program
 
         // Add services to the container.
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddNewtonsoftJson(config =>
+            {
+                config.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }); ;
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddDbContext<HomeRepairContext>(config =>
+        {
+            config.UseSqlServer(builder.Configuration.GetConnectionString("HomeRepairDatabase"));
+        });
 
         var app = builder.Build();
 

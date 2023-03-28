@@ -11,7 +11,7 @@ public class User
 	public string? Name { get; set; }
 	public string? LastName { get; set; }
 	public string? ProfileImage { get; set; }
-	public string type { get; set; } = USER_TYPE;
+	public string? Type { get; set; } = USER_TYPE;
 	public List<Post> Posts { get; set; } = new List<Post>();
 	public List<User> Friends { get; set; } = new List<User>();
 }
