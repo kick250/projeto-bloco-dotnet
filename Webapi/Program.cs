@@ -1,9 +1,8 @@
-
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using ApplicationBusiness.Services;
 
 namespace Webapi;
-
 public class Program
 {
     public static void Main(string[] args)
@@ -17,6 +16,8 @@ public class Program
             {
                 config.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             }); ;
+
+        builder.Services.AddScoped<UsersService>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
