@@ -1,6 +1,5 @@
 ﻿using ApplicationBusiness.Services;
 using Entities;
-using Infrastructure;
 using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

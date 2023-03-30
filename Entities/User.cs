@@ -34,5 +34,10 @@ public class User
 	{
 		Password = Convert.ToBase64String(Encoding.Default.GetBytes(password));
 	}
+
+	public string GetName()
+	{
+		return Name ?? "";
+	}
 }
 

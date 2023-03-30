@@ -1,3 +1,5 @@
+using Webapp.APIs;
+
 namespace Webapp;
 
 public class Program
@@ -8,6 +10,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        builder.Services.AddScoped<UsersAPI>();
 
         var app = builder.Build();
 

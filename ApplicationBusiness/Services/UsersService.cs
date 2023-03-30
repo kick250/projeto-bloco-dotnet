@@ -2,7 +2,9 @@
 using Infrastructure;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using Repository;
+using System.Text;
 
 namespace ApplicationBusiness.Services;
 public class UsersService
@@ -40,6 +42,14 @@ public class UsersService
         Context.SaveChanges();
     }
 
+    public User? Authenticate(string username, string password)
+    {
+        return Users.FirstOrDefault(user =>
+            user.Username == username &&
+            user.Password == EncodePassword(password)
+        );
+    }
+
     #region private
 
     private bool Exists(User user)
@@ -48,6 +58,10 @@ public class UsersService
             return false;
 
         return true;
+    }
+    private string EncodePassword(string value)
+    {
+        return Convert.ToBase64String(Encoding.Default.GetBytes(value));
     }
 
     #endregion

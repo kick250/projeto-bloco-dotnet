@@ -1,4 +1,4 @@
-﻿namespace Infrastructure;
+﻿namespace Infrastructure.Exceptions;
 
 public class UsernameInUseException : Exception
 {
