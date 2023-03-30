@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using ApplicationBusiness.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Webapi;
 public class Program
@@ -28,6 +31,22 @@ public class Program
             config.UseSqlServer(builder.Configuration.GetConnectionString("HomeRepairDatabase"));
         });
 
+        builder.Services.AddAuthentication(option =>
+        {
+            option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(config =>
+        {
+            var tokenSecret = Encoding.Default.GetBytes(GetTokenSecret(builder.Configuration));
+
+            config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+            {
+                ValidIssuer = "home-repair-token",
+                IssuerSigningKey = new SymmetricSecurityKey(tokenSecret),
+                ValidateAudience = false
+            };
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -39,11 +58,21 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
 
         app.MapControllers();
 
         app.Run();
+    }
+    private static string GetTokenSecret(IConfiguration configuration)
+    {
+        string? value = configuration["TokenSecret"];
+
+        if (value == null)
+            return "";
+
+        return value;
     }
 }

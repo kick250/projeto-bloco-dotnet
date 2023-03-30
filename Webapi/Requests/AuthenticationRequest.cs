@@ -6,7 +6,8 @@ namespace Webapi.Requests;
 
 public class AuthenticationRequest
 {
-    [EmailAddress(ErrorMessage = "É necessário o atributo 'email' nessa requisição"),
+    [Required(ErrorMessage = "É necessário o atributo 'email' nessa requisição"),
+     EmailAddress(ErrorMessage = "O email precisa estar em um formato valido"),
      JsonPropertyName("email")]
     public string? Email { get; set; }
     [Required(ErrorMessage = "É necessário o atributo 'password' nessa requisição"),
