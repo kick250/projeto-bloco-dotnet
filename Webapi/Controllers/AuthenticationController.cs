@@ -32,7 +32,7 @@ public class AuthenticationController : ControllerBase
         User? user = UsersService.Authenticate(request.GetEmail(), request.GetPassword());
 
         if (user == null)
-            return Unauthorized();
+            return Unauthorized(new { Error = "Usuário e senha não existem." });
 
         return Ok(new { token = GetToken(user) });
     }
