@@ -36,4 +36,11 @@ public class LoginController : Controller
 
         return Redirect(returnUrl);
     }
+
+    public ActionResult Logout()
+    {
+        AccountManager.Logout();
+
+        return Redirect("new");
+    }
 }
