@@ -22,9 +22,8 @@ public class User
 	[Required(ErrorMessage = "O sobrenome do usuário é necessário."),
      JsonPropertyName("lastName")]
 	public string? LastName { get; set; }
-	[Required(ErrorMessage = "Uma imagem de perfil é necessária."),
-     JsonPropertyName("profileImage")]
-    public string? ProfileImage { get; set; }
+	[JsonPropertyName("profileImage")]
+	public string? ProfileImage { get; set; } = "";
 	[JsonIgnore]
     public string? Type { get; set; } = USER_TYPE;
     public List<Post> Posts { get; set; } = new List<Post>();
@@ -48,6 +47,11 @@ public class User
 	public string GetPassword()
 	{
 		return Password ?? "";
+	}
+
+	public string GetProfileImage()
+	{
+		return ProfileImage ?? "";
 	}
 }
 

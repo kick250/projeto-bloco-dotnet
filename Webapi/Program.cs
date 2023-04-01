@@ -21,6 +21,7 @@ public class Program
             }); ;
 
         builder.Services.AddScoped<UsersService>();
+        builder.Services.AddScoped<ImagesService>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

@@ -8,13 +8,13 @@ namespace Webapp.Controllers;
 
 public class UsersController : Controller
 {
-    IAccountManager AccountManager { get; set; }
-    private UsersAPI API { get; set; }
+    private UsersAPI UsersAPI { get; set; }
+    private ImagesAPI ImagesAPI { get; set; }
 
-    public UsersController(UsersAPI api, IAccountManager accountManager)
+    public UsersController(UsersAPI usersApi, ImagesAPI imagesAPI)
     {
-        API = api;
-        AccountManager = accountManager;
+        UsersAPI = usersApi;
+        ImagesAPI = imagesAPI;
     }
 
     public IActionResult New()
@@ -23,14 +23,20 @@ public class UsersController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(User user)
+    public IActionResult Create(User user, [FromForm] IFormFile? ProfileImage)
     {
         if (!ModelState.IsValid) return View("New", user);
+        if (ProfileImage == null)
+        {
+            ViewBag.Error = "Uma imagem de perfil deve ser adicionada";
+            return View("New", user);
+        }
 
         try
         {
-            API.create(user);
-            AccountManager.Login(user.GetEmail(), user.GetPassword());
+            string imageUrl = ImagesAPI.UploadImage(ProfileImage);
+            user.ProfileImage = imageUrl;
+            UsersAPI.create(user);
         }
         catch (APIErrorException ex)
         {
@@ -38,6 +44,6 @@ public class UsersController : Controller
             return View("New", user);
         }
 
-        return Redirect("/");
+        return Redirect("/Login/new");
     }
 }

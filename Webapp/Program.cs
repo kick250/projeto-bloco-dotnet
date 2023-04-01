@@ -16,6 +16,7 @@ public class Program
 
         builder.Services.AddScoped<UsersAPI>();
         builder.Services.AddScoped<AuthenticationAPI>();
+        builder.Services.AddScoped<ImagesAPI>();
 
         builder.Services.AddTransient<IUserStore<Account>, AccountRepository>();
         builder.Services.AddTransient<IRoleStore<AccountRole>, AccountRoleRepository>();

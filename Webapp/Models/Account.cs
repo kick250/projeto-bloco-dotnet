@@ -41,6 +41,11 @@ public class Account
         return Password ?? "";
     }
 
+    public string GetProfileImageUrl() 
+    {
+        return GetKeyFromToken("profileImage") ?? "";
+    }
+
     #region private
 
     private string GetKeyFromToken(string type)

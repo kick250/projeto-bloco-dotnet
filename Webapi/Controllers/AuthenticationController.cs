@@ -44,8 +44,9 @@ public class AuthenticationController : ControllerBase
         List<Claim> claims = new List<Claim>()
         {
             new Claim("sub", $"{user.Id}"),
-            new Claim("email", $"{user.Username}"),
-            new Claim("name", user.GetName())
+            new Claim("email", user.GetEmail()),
+            new Claim("name", user.GetName()),
+            new Claim("profileImage", user.GetProfileImage())
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

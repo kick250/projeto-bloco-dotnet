@@ -33,6 +33,11 @@ public abstract class IAPI
         Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
+    protected string BuildUrl(string path)
+    {
+        return $"{BaseUrl}{path}";
+    }
+
     #region private
 
     private HttpContent MountBodyContent(object bodyParams)
@@ -44,11 +49,6 @@ public abstract class IAPI
         );
 
         return body;
-    }
-
-    private string BuildUrl(string path)
-    {
-        return $"{BaseUrl}{path}";
     }
 
     #endregion

@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" asp-controller="Users">
+        <form asp-action="Create" asp-controller="Users" EncType="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="text-danger">@ViewBag.Error</div>
             <div class="form-group">
@@ -34,8 +34,8 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProfileImage" class="control-label">Imagem</label>
-                <input asp-for="ProfileImage" class="form-control" />
+                <label asp-for="ProfileImage" class="control-label">Imagem de perfil</label>
+                <input asp-for="ProfileImage" type="file" accept="image /png, image /jpeg" class="form-control" required/>
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
             <div class="form-group">
