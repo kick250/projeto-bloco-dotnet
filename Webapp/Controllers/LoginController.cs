@@ -37,6 +37,7 @@ public class LoginController : Controller
         return Redirect(returnUrl);
     }
 
+    [HttpPost]
     public ActionResult Logout()
     {
         AccountManager.Logout();
