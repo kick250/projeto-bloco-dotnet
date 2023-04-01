@@ -2,16 +2,19 @@
 using Webapp.APIs;
 using Entities;
 using Infrastructure.Exceptions;
+using Webapp.Repositories;
 
 namespace Webapp.Controllers;
 
 public class UsersController : Controller
 {
+    IAccountManager AccountManager { get; set; }
     private UsersAPI API { get; set; }
 
-    public UsersController(UsersAPI api)
+    public UsersController(UsersAPI api, IAccountManager accountManager)
     {
         API = api;
+        AccountManager = accountManager;
     }
 
     public IActionResult New()
@@ -27,12 +30,12 @@ public class UsersController : Controller
         try
         {
             API.create(user);
+            AccountManager.Login(user.GetEmail(), user.GetPassword());
         }
         catch (APIErrorException ex)
         {
             ViewBag.Error = ex.GetMessage();
             return View("New", user);
-
         }
 
         return Redirect("/");

@@ -39,5 +39,15 @@ public class User
 	{
 		return Name ?? "";
 	}
+
+	public string GetEmail()
+	{
+		return Username ?? "";
+	}
+
+	public string GetPassword()
+	{
+		return Password ?? "";
+	}
 }
 
