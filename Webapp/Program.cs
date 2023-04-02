@@ -3,6 +3,7 @@ using Webapp.APIs;
 using Webapp.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Webapp.Helpers;
 
 namespace Webapp;
 public class Program
@@ -17,7 +18,9 @@ public class Program
         builder.Services.AddScoped<UsersAPI>();
         builder.Services.AddScoped<AuthenticationAPI>();
         builder.Services.AddScoped<ImagesAPI>();
+        builder.Services.AddScoped<FriendsAPI>();
 
+        builder.Services.AddTransient<SessionHelper>();
         builder.Services.AddTransient<IUserStore<Account>, AccountRepository>();
         builder.Services.AddTransient<IRoleStore<AccountRole>, AccountRoleRepository>();
         builder.Services.AddTransient<IAccountManager, AccountManager>();
@@ -32,6 +35,8 @@ public class Program
             config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
             config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
         });
+
+        builder.Services.AddSession();
 
         var app = builder.Build();
 
@@ -51,9 +56,11 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseSession();
+
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller=Friends}/{action=Index}");
 
         app.Run();
     }

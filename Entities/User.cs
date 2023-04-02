@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Entities;
 public class User
@@ -14,7 +15,7 @@ public class User
 	public string? Username { get; set; }
 	[Required(ErrorMessage = "A senha é necessária."),
 	 JsonPropertyName("password"),
-     JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+     Newtonsoft.Json.JsonIgnore]
 	public string? Password { get; set; }
 	[Required(ErrorMessage = "O nome do usuário é necessário."),
      JsonPropertyName("name")]
@@ -24,12 +25,14 @@ public class User
 	public string? LastName { get; set; }
 	[JsonPropertyName("profileImage")]
 	public string? ProfileImage { get; set; } = "";
-	[JsonIgnore]
+	[Newtonsoft.Json.JsonIgnore]
     public string? Type { get; set; } = USER_TYPE;
+	[Newtonsoft.Json.JsonIgnore]
     public List<Post> Posts { get; set; } = new List<Post>();
+	[Newtonsoft.Json.JsonIgnore]
 	public List<User> Friends { get; set; } = new List<User>();
 
-	public void SetPassword(string password)
+    public void SetPassword(string password)
 	{
 		Password = Convert.ToBase64String(Encoding.Default.GetBytes(password));
 	}
@@ -53,5 +56,32 @@ public class User
 	{
 		return ProfileImage ?? "";
 	}
+
+	public string GetFullName()
+	{
+		return $"{Name} {LastName}";
+	}
+
+	public void AddFriend(User friend)
+	{
+        if (IsFriendOf(friend) || Id == friend.Id) return;
+
+        Friends.Add(friend);
+		friend.AddFriend(this);
+	}
+
+    public void RemoveFriend(User friend)
+    {
+        if (!this.IsFriendOf(friend)) return;
+
+        Friends.Remove(friend);
+        friend.RemoveFriend(this);
+    }
+
+    public bool IsFriendOf(User user)
+	{
+		return Friends.Contains(user);
+	}
+
 }
 

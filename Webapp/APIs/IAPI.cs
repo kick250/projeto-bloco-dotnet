@@ -28,6 +28,13 @@ public abstract class IAPI
         return Client.PostAsync(url, MountBodyContent(bodyParams));
     }
 
+    protected Task<HttpResponseMessage> Delete(string path, object bodyParams)
+    {
+        string url = BuildUrl(path);
+
+        return Client.DeleteAsync(url);
+    }
+
     protected void AddToken(string token)
     {
         Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -40,7 +47,7 @@ public abstract class IAPI
 
     #region private
 
-    private HttpContent MountBodyContent(object bodyParams)
+    private HttpContent MountBodyContent(object? bodyParams)
     {
         var body = new StringContent(
             JsonConvert.SerializeObject(bodyParams),

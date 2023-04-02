@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 namespace Webapp.Models;
 public class Account
 {
+    public const string SESSION_TOKEN_KEY = "AccountToken";
     public string? Token { get; set; }
 
     [Required(ErrorMessage = "O email é obrigatório."),
@@ -29,6 +30,19 @@ public class Account
 
             return GetKeyFromToken("name");
         }
+    }
+
+    public Account() { }
+
+    public Account(string token)
+    {
+        Token = token;
+        Email = GetKeyFromToken("email");
+    }
+
+    public string GetToken()
+    {
+        return Token ?? "";
     }
 
     public string GetEmail()

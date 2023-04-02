@@ -17,18 +17,6 @@ public class UsersController : ControllerBase
         Service = service;
     }
 
-    [HttpGet("{id}")]
-    public IActionResult Get(int id)
-    {
-        try
-        {
-            return Ok(Service.GetById(id));
-        } catch (UserNotFoundException ex) 
-        {
-            return NotFound(new { Error = ex.GetMessage() });
-        }
-    }
-
     [HttpPost]
     public IActionResult Post([FromBody] User user)
     {

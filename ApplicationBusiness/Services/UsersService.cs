@@ -1,8 +1,6 @@
 ﻿using Entities;
-using Infrastructure;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 using Repository;
 using System.Text;
 
@@ -30,6 +28,16 @@ public class UsersService
         return user;
     } 
 
+    public User GetByEmail(string email) 
+    {
+        User? user = Users.FirstOrDefault(user => user.Username == email);
+
+        if (user == null)
+            throw new UserNotFoundException();
+
+        return user;
+    }
+
     public void Create(User user)
     {
         if (Exists(user))
@@ -42,6 +50,18 @@ public class UsersService
         Context.SaveChanges();
     }
 
+    public void AddFriend(User user, User Friend)
+    {
+        user.AddFriend(Friend);
+        Update(user);
+    }
+
+    public void RemoveFriend(User user, User Friend)
+    {
+        user.RemoveFriend(Friend);
+        Update(user);
+    }
+
     public User? Authenticate(string username, string password)
     {
         return Users.FirstOrDefault(user =>
@@ -51,6 +71,12 @@ public class UsersService
     }
 
     #region private
+
+    private void Update(User user)
+    {
+        Context.Update(user);
+        Context.SaveChanges();
+    }
 
     private bool Exists(User user)
     {

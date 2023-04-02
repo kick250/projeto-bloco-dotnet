@@ -18,7 +18,7 @@ public class Program
             .AddNewtonsoftJson(config =>
             {
                 config.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            }); ;
+            });
 
         builder.Services.AddScoped<UsersService>();
         builder.Services.AddScoped<ImagesService>();
