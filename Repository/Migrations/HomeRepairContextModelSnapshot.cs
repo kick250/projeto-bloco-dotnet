@@ -47,7 +47,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Entities.Post", b =>

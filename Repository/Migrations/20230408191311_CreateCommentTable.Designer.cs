@@ -12,7 +12,7 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(HomeRepairContext))]
-    [Migration("20230408183956_CreateCommentTable")]
+    [Migration("20230408191311_CreateCommentTable")]
     partial class CreateCommentTable
     {
         /// <inheritdoc />
@@ -50,7 +50,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Entities.Post", b =>
