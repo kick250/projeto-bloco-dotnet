@@ -14,8 +14,7 @@ public class User
      JsonPropertyName("username")]
 	public string? Username { get; set; }
 	[Required(ErrorMessage = "A senha é necessária."),
-	 JsonPropertyName("password"),
-     Newtonsoft.Json.JsonIgnore]
+	 JsonPropertyName("password")]
 	public string? Password { get; set; }
 	[Required(ErrorMessage = "O nome do usuário é necessário."),
      JsonPropertyName("name")]
@@ -25,11 +24,8 @@ public class User
 	public string? LastName { get; set; }
 	[JsonPropertyName("profileImage")]
 	public string? ProfileImage { get; set; } = "";
-	[Newtonsoft.Json.JsonIgnore]
     public string? Type { get; set; } = USER_TYPE;
-	[Newtonsoft.Json.JsonIgnore]
     public List<Post> Posts { get; set; } = new List<Post>();
-	[Newtonsoft.Json.JsonIgnore]
 	public List<User> Friends { get; set; } = new List<User>();
 
     public void SetPassword(string password)
