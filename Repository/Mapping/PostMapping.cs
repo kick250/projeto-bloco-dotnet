@@ -10,5 +10,7 @@ internal class PostMapping : IEntityTypeConfiguration<Post>
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id);
+
+        builder.HasMany(x => x.Comments).WithOne(x => x.Post);
     }
 }
