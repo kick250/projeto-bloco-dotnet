@@ -1,5 +1,6 @@
 ﻿using ApplicationBusiness.Services;
 using Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -7,6 +8,7 @@ namespace Webapi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class PostsController : ControllerBase
 {
     private PostsService PostsService { get; set; }

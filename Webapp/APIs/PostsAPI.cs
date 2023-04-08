@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Infrastructure.Exceptions;
 using Newtonsoft.Json;
+using Webapp.Models;
 
 namespace Webapp.APIs;
 
@@ -9,8 +10,10 @@ public class PostsAPI : IAPI
     public PostsAPI(IConfiguration configuration)
         : base(configuration["WebapiHost"]) { }
 
-    public Post GetById(int id)
+    public Post GetById(Account account, int id)
     {
+        AddToken(account.Token ?? "");
+
         var response = Get($"/Posts/{id}").Result;
 
         if (!response.IsSuccessStatusCode)
