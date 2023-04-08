@@ -31,7 +31,7 @@ public class AccountManager : IAccountManager
                 Token = token
             };
 
-            await SignInManager.SignInAsync(account, true);
+            await SignInManager.SignInAsync(account, false);
 
             if (HttpContext != null)
                 HttpContext.Session.SetString(Account.SESSION_TOKEN_KEY, token);
