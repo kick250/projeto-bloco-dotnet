@@ -19,6 +19,7 @@ public class Program
         builder.Services.AddScoped<AuthenticationAPI>();
         builder.Services.AddScoped<ImagesAPI>();
         builder.Services.AddScoped<FriendsAPI>();
+        builder.Services.AddScoped<PostsAPI>();
 
         builder.Services.AddTransient<SessionHelper>();
         builder.Services.AddTransient<IUserStore<Account>, AccountRepository>();
