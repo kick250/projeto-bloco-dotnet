@@ -13,8 +13,8 @@ public class CommentsService
     {
         Context = context;
         Comments = context.Comments
-            .Include(post => post.Owner)
-            .Include(post => post.Content);
+                    .Include(comment => comment.Owner)
+                    .Include(comment => comment.Post);
     }
 
     public Comment GetById(int id)
@@ -22,7 +22,7 @@ public class CommentsService
         Comment? comment = Comments.FirstOrDefault(comment => comment.Id == id);
 
         if (comment == null)
-            throw new PostNotFoundException();
+            throw new CommentNotFoundException();
 
         return comment;
     }
@@ -30,6 +30,14 @@ public class CommentsService
     public void Create(Comment comment)
     {
         Context.Comments.Add(comment);
+        Context.SaveChanges();
+    }
+
+    public void DeleteById(int id)
+    {
+        Comment comment = GetById(id);
+
+        Context.Comments.Remove(comment);
         Context.SaveChanges();
     }
 }

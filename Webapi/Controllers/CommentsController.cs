@@ -29,7 +29,7 @@ public class CommentsController : AuthorizedController
         try
         {
             return Ok(CommentsService.GetById(id));
-        } catch (PostNotFoundException ex)
+        } catch (CommentNotFoundException ex)
         {
             return NotFound(new { Error = ex.GetMessage() });
         }
@@ -52,6 +52,20 @@ public class CommentsController : AuthorizedController
         } catch (RequiredParameterNotPresent ex)
         {
             return BadRequest(new { Error = ex.Message });
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            CommentsService.DeleteById(id);
+
+            return NoContent();
+        } catch (CommentNotFoundException)
+        {
+            return NoContent();
         }
     }
 }

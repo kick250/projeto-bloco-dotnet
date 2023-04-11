@@ -51,4 +51,12 @@ public class CommentsController : AuthorizedController
             return View(nameof(New), comment);
         }
     }
+
+    [HttpPost]
+    public ActionResult Delete(int id, int postId)
+    {
+        CommentsAPI.DeleteById(id);
+
+        return Redirect($"/Posts/Details?Id={postId}");
+    }
 }

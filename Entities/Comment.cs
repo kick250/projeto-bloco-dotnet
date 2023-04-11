@@ -16,4 +16,12 @@ public class Comment
 
         return Owner.GetFullName();
     }
+
+    public bool IsFrom(string userEmail)
+    {
+        if (Owner == null || Owner.Username == null || String.IsNullOrEmpty(userEmail)) 
+            return false;
+
+        return Owner.Username == userEmail;
+    }
 }

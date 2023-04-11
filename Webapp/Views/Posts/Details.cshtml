@@ -48,7 +48,7 @@
 </div>
 
 <h5>Comentários</h5>
-<a asp-controller="Comments" asp-action="New" asp-route-postId="@Model.Id">Adicionar contato</a>
+<a asp-controller="Comments" asp-action="New" asp-route-postId="@Model.Id">Adicionar comentário</a>
 
 @if (Model.Comments == null)
 {
@@ -64,6 +64,7 @@
                 <th>
                     Conteúdo
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -76,6 +77,14 @@
                     <td>
                         @item.Content
                     </td>
+                    <th>
+                        @if (User.Identity != null && item.IsFrom(User.Identity.Name ?? ""))
+                        {
+                            <form asp-action="Delete" asp-controller="Comments" asp-route-id="@item.Id" asp-route-postId="@Model.Id">
+                                <input type="submit" value="Remover comentário" class="btn btn-danger" />
+                            </form>
+                        }
+                    </th>
                 </tr>
             }
         </tbody>
