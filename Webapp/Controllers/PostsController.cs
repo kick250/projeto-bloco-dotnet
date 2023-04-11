@@ -61,4 +61,12 @@ public class PostsController : AuthorizedController
             return View(nameof(New), post);
         }
     }
+
+    [HttpPost]
+    public ActionResult Delete(int id)
+    {
+        PostsAPI.DeleteById(id);
+
+        return RedirectToAction(nameof(Index));
+    }
 }

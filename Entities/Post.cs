@@ -25,5 +25,13 @@ public class Post
 
         return Owner.GetEmail();
     }
+
+    public bool Isfrom(string userEmail)
+    {
+        if (Owner == null || Owner.Username == null || string.IsNullOrEmpty(userEmail)) 
+            return false;
+
+        return Owner.Username == userEmail;
+    }
 }
 

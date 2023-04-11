@@ -50,4 +50,18 @@ public class PostsController : AuthorizedController
 
         return Created("Post Criado", new {});
     }
+
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            PostsService.DeleteById(id);
+
+            return NoContent();
+        } catch (PostNotFoundException ex)
+        {
+            return NoContent();
+        }
+    }
 }

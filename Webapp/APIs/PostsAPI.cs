@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Infrastructure.Exceptions;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
 namespace Webapp.APIs;
@@ -47,6 +48,14 @@ public class PostsAPI : IAPI
     public void Create(Post post)
     {
         var response = Post($"/Posts", post).Result;
+
+        if (!response.IsSuccessStatusCode)
+            throw new APIErrorException(response);
+    }
+
+    public void DeleteById(int id)
+    {
+        var response = Delete($"/Posts/{id}", new {}).Result;
 
         if (!response.IsSuccessStatusCode)
             throw new APIErrorException(response);

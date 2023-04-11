@@ -40,5 +40,14 @@ public class PostsService
         Context.Posts.Add(post);
         Context.SaveChanges();
     }
-    
+
+    public void DeleteById(int id)
+    {
+        Post post = GetById(id);
+
+        Context.Posts.Remove(post);
+        Context.SaveChanges();
+    }
+
+
 }
