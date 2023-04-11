@@ -10,10 +10,8 @@ public class CommentsAPI : IAPI
     public CommentsAPI(IConfiguration configuration)
         : base(configuration["WebapiHost"]) { }
 
-    public Comment GetById(Account account, int id)
+    public Comment GetById(int id)
     {
-        AddToken(account.Token ?? "");
-
         var response = Get($"/Comments/{id}").Result;
 
         if (!response.IsSuccessStatusCode)

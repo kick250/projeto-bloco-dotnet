@@ -8,12 +8,18 @@ public abstract class IAPI
 {
     private string BaseUrl { get; set; }
     protected HttpClient Client { get; set; }
-    private string? AuthorizationToken { get; set; }
 
     public IAPI(string? baseUrl)
     {
         BaseUrl = baseUrl ?? "";
         Client = new HttpClient();
+    }
+
+    public void AddToken(string? token)
+    {
+        if (token == null) return;
+
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
     protected Task<HttpResponseMessage> Get(string path)
@@ -33,11 +39,6 @@ public abstract class IAPI
         string url = BuildUrl(path);
 
         return Client.DeleteAsync(url);
-    }
-
-    protected void AddToken(string token)
-    {
-        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
     protected string BuildUrl(string path)

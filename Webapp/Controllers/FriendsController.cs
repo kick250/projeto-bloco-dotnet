@@ -3,47 +3,39 @@ using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Webapp.APIs;
-using Webapp.Helpers;
-using Webapp.Models;
 
 namespace Webapp.Controllers;
 
 [Authorize]
-public class FriendsController : Controller
+public class FriendsController : AuthorizedController
 {
     FriendsAPI FriendsAPI { get; set; }
-    SessionHelper SessionHelper { get; set; }
 
-    public FriendsController(FriendsAPI friendsAPI, SessionHelper sessionHelper)
+    public FriendsController(FriendsAPI friendsAPI)
     {
         FriendsAPI = friendsAPI;
-        SessionHelper = sessionHelper;
+    }
+
+    protected override void SetAPIToken()
+    {
+        FriendsAPI.AddToken(SessionToken);
     }
 
     public IActionResult Index()
     {
-        Account? account = GetAccount();
-        if (account == null) return Redirect("/Login/logout");
-
-        List<User> friends = FriendsAPI.GetFriendsOf(account);
+        List<User> friends = FriendsAPI.GetFriends();
 
         return View(friends);
     }
 
     public IActionResult New()
     {
-        Account? account = GetAccount();
-        if (account == null) return Redirect("/Login/logout");
-
         return View();
     }
 
     [HttpPost]
     public IActionResult AddFriend(string email)
     {
-        Account? account = GetAccount();
-        if (account == null) return Redirect("/Login/logout");
-
         if (!ModelState.IsValid)
         {
             ViewBag.Error = "O email é necessário.";
@@ -52,7 +44,7 @@ public class FriendsController : Controller
 
         try
         {
-            FriendsAPI.AddFriend(account, email);
+            FriendsAPI.AddFriend(email);
 
             return RedirectToAction("Index");
         } catch (APIErrorException ex)
@@ -65,18 +57,12 @@ public class FriendsController : Controller
     [HttpGet]
     public IActionResult Delete([FromQuery] string friendEmail)
     {
-        Account? account = GetAccount();
-        if (account == null) return Redirect("/Login/logout");
-
         return View("Delete", friendEmail);
     }
 
     [HttpPost]
     public IActionResult RemoveFriend([FromQuery] string friendEmail)
     {
-        Account? account = GetAccount();
-        if (account == null) return Redirect("/Login/logout");
-
         if (!ModelState.IsValid)
         {
             ViewBag.Error = "O email é necessário.";
@@ -85,7 +71,7 @@ public class FriendsController : Controller
 
         try
         {
-            FriendsAPI.RemoveFriend(account, friendEmail);
+            FriendsAPI.RemoveFriend(friendEmail);
 
             return RedirectToAction("Index");
         }
@@ -95,16 +81,4 @@ public class FriendsController : Controller
             return View("new", friendEmail);
         }
     } 
-
-    #region private
-
-    private Account? GetAccount()
-    {
-        if (!SessionHelper.TokenIsPresent())
-            return null;  
-
-        return SessionHelper.GetCurrentAccount(); ;
-    }
-
-    #endregion
 }

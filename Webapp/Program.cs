@@ -3,7 +3,6 @@ using Webapp.APIs;
 using Webapp.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Webapp.Helpers;
 
 namespace Webapp;
 public class Program
@@ -22,7 +21,6 @@ public class Program
         builder.Services.AddScoped<PostsAPI>();
         builder.Services.AddScoped<CommentsAPI>();
 
-        builder.Services.AddTransient<SessionHelper>();
         builder.Services.AddTransient<IUserStore<Account>, AccountRepository>();
         builder.Services.AddTransient<IRoleStore<AccountRole>, AccountRoleRepository>();
         builder.Services.AddTransient<IAccountManager, AccountManager>();

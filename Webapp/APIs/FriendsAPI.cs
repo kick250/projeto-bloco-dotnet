@@ -1,7 +1,6 @@
 ﻿using Entities;
 using Infrastructure.Exceptions;
 using Newtonsoft.Json;
-using Webapp.Models;
 
 
 namespace Webapp.APIs;
@@ -10,10 +9,8 @@ public class FriendsAPI : IAPI
     public FriendsAPI(IConfiguration configuration) 
         : base(configuration["WebapiHost"]) { }
 
-    public List<User> GetFriendsOf(Account account)
+    public List<User> GetFriends()
     {
-        AddToken(account.GetToken());
-
         var response = Get($"/friends").Result;
 
         if (!response.IsSuccessStatusCode)
@@ -29,20 +26,16 @@ public class FriendsAPI : IAPI
         return friends;
     }
 
-    public void AddFriend(Account account, string friendEmail)
+    public void AddFriend(string friendEmail)
     {
-        AddToken(account.GetToken());
-
         var response = Post($"/friends/{friendEmail}", new {}).Result;
 
         if (!response.IsSuccessStatusCode)
             throw new APIErrorException(response);
     }
 
-    public void RemoveFriend(Account account, string friendEmail) 
+    public void RemoveFriend(string friendEmail) 
     {
-        AddToken(account.GetToken());
-
         var response = Delete($"/friends/{friendEmail}", new {}).Result;
 
         if (!response.IsSuccessStatusCode)

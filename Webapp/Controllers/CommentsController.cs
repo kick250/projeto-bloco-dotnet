@@ -2,21 +2,22 @@
 using Webapp.APIs;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
-using Webapp.Models;
-using Webapp.Helpers;
 
 namespace Webapp.Controllers;
 
 [Authorize]
-public class CommentsController : Controller
+public class CommentsController : AuthorizedController
 {
     CommentsAPI CommentsAPI { get; set; }
-    SessionHelper SessionHelper { get; set; }
 
-    public CommentsController(CommentsAPI commentsAPI, SessionHelper sessionHelper)
+    public CommentsController(CommentsAPI commentsAPI)
     {
         CommentsAPI = commentsAPI;
-        SessionHelper = sessionHelper;
+    }
+
+    protected override void SetAPIToken()
+    {
+        CommentsAPI.AddToken(SessionToken);
     }
 
     public ActionResult Index()
@@ -26,10 +27,7 @@ public class CommentsController : Controller
 
     public ActionResult Details(int id)
     {
-        Account? account = GetAccount();
-        if (account == null) return Redirect("/Login/logout");
-
-        Comment comment = CommentsAPI.GetById(account, id);
+       Comment comment = CommentsAPI.GetById(id);
 
         return View(comment);
     }
@@ -51,16 +49,4 @@ public class CommentsController : Controller
             return View();
         }
     }
-
-    #region private
-
-    private Account? GetAccount()
-    {
-        if (!SessionHelper.TokenIsPresent())
-            return null;
-
-        return SessionHelper.GetCurrentAccount(); ;
-    }
-
-    #endregion
 }

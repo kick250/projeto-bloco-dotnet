@@ -4,11 +4,11 @@ namespace Webapp.Helpers;
 
 public class SessionHelper
 {
-    HttpContext? HttpContext { get; set; }
+    HttpContext HttpContext { get; set; }
 
-    public SessionHelper(IHttpContextAccessor httpContextAccessor)
+    public SessionHelper(HttpContext httpContext)
     {
-        HttpContext = httpContextAccessor.HttpContext;
+        HttpContext = httpContext;
     }
 
     public bool TokenIsPresent()
@@ -23,9 +23,6 @@ public class SessionHelper
 
     public string GetToken()
     {
-        if (HttpContext == null)
-            return "";
-
         return HttpContext.Session.GetString(Account.SESSION_TOKEN_KEY) ?? "";
     }
 }
