@@ -45,6 +45,9 @@ public class PostsService
     {
         Post post = GetById(id);
 
+        foreach (Comment comment in post.Comments)
+            Context.Comments.Remove(comment);
+
         Context.Posts.Remove(post);
         Context.SaveChanges();
     }
