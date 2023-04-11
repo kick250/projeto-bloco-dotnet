@@ -39,9 +39,15 @@ public class PostsController : AuthorizedController
         }
     }
 
-    //[HttpPost]
-    //public IActionResult Post([FromBody] string value)
-    //{
-    //    throw new NotImplementedException();
-    //}
+    [HttpPost]
+    public IActionResult Post([FromBody] Post post)
+    {
+        if (!ModelState.IsValid) return BadRequest(post);
+
+        post.Owner = CurrentUser();
+
+        PostsService.Create(post);
+
+        return Created("Post Criado", new {});
+    }
 }

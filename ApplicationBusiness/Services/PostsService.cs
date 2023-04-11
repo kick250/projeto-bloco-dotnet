@@ -2,7 +2,6 @@
 using Entities;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 
 namespace ApplicationBusiness.Services;
 public class PostsService
@@ -34,6 +33,12 @@ public class PostsService
             throw new PostNotFoundException();
 
         return post;
+    }
+    
+    public void Create(Post post)
+    {
+        Context.Posts.Add(post);
+        Context.SaveChanges();
     }
     
 }

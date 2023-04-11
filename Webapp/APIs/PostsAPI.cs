@@ -43,4 +43,12 @@ public class PostsAPI : IAPI
 
         return post;
     }
+
+    public void Create(Post post)
+    {
+        var response = Post($"/Posts", post).Result;
+
+        if (!response.IsSuccessStatusCode)
+            throw new APIErrorException(response);
+    }
 }

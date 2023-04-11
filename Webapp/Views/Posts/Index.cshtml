@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
+                Owner
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Content)
             </th>
             <th></th>
@@ -29,6 +32,9 @@
                 <td class="d-flex flex-column">
                     <h5>@Html.DisplayFor(modelItem => item.Title)</h5>
                     <img src="@item.ImageUrl" style="height: 200px; width: fit-content;">
+                </td>
+                <td>
+                    @item.GetOwnerName()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Content)

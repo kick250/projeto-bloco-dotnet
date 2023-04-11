@@ -8,11 +8,13 @@ namespace Webapp.Controllers;
 [Authorize]
 public class PostsController : AuthorizedController
 {
-    PostsAPI PostsAPI { get; set; }
+    private PostsAPI PostsAPI { get; set; }
+    private ImagesAPI ImagesAPI { get; set; }
 
-    public PostsController(PostsAPI postsAPI)
+    public PostsController(PostsAPI postsAPI, ImagesAPI imagesAPI)
     {
         PostsAPI = postsAPI;
+        ImagesAPI = imagesAPI;
     }
 
     protected override void SetAPIToken()
@@ -26,28 +28,37 @@ public class PostsController : AuthorizedController
         return View(posts);
     }
 
-    public ActionResult Details(int id)
+    public ActionResult Details(int? id)
     {
-        Post post = PostsAPI.GetById(id);
+        if (id == null) return RedirectToAction(nameof(Index));
+
+        Post post = PostsAPI.GetById(int.Parse($"{id}"));
 
         return View(post);
     }
 
-    //public ActionResult Create()
-    //{
-    //    return View();
-    //}
+    public ActionResult New()
+    {
+        return View();
+    }
 
-    //[HttpPost]
-    //public ActionResult Create(IFormCollection collection)
-    //{
-    //    try
-    //    {
-    //        return RedirectToAction(nameof(Index));
-    //    }
-    //    catch
-    //    {
-    //        return View();
-    //    }
-    //}
+    [HttpPost]
+    public ActionResult Create(Post post, IFormFile imageFile)
+    {
+        if (!ModelState.IsValid) return View(nameof(New), post);
+
+        try
+        {
+            string imageUrl = ImagesAPI.UploadImage(imageFile);
+            post.ImageUrl = imageUrl;
+            PostsAPI.Create(post);
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex) 
+        {
+            ViewBag.Error = ex.Message;
+            return View(nameof(New), post);
+        }
+    }
 }
