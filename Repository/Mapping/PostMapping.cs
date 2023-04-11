@@ -11,6 +11,10 @@ internal class PostMapping : IEntityTypeConfiguration<Post>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id);
 
+        builder.Property(x => x.Title).IsRequired().HasMaxLength(248);
+        builder.Property(x => x.Content).IsRequired().HasMaxLength(448);
+        builder.Property(x => x.ImageUrl).IsRequired().HasMaxLength(448);
+
         builder.HasMany(x => x.Comments).WithOne(x => x.Post);
     }
 }

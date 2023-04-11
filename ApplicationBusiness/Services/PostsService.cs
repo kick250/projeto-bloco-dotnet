@@ -2,6 +2,7 @@
 using Entities;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.Elfie.Model.Tree;
 
 namespace ApplicationBusiness.Services;
 public class PostsService
@@ -13,9 +14,17 @@ public class PostsService
     {
         Context = context;
         Posts = context.Posts
-            .Include(post => post.Owner)
-            .Include(post => post.Comments).ThenInclude(comment => comment.Owner);
+            .Include(post => post.Comments).ThenInclude(comment => comment.Owner)
+            .Include(post => post.Owner);
     }
+
+    public IEnumerable<Post> GetPostsFor(User user)
+    {
+        List<int?> usersToGetPost = user.GetFriendIds();
+        usersToGetPost.Add(user.Id);
+
+        return Posts.Where(x => x.Owner != null && usersToGetPost.Contains(x.Owner.Id));
+    } 
 
     public Post GetById(int id)
     {

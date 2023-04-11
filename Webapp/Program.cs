@@ -60,7 +60,7 @@ public class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Friends}/{action=Index}");
+            pattern: "{controller=Posts}/{action=Index}");
 
         app.Run();
     }

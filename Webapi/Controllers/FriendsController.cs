@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Entities;
 using Infrastructure.Exceptions;
+using Repository;
 
 namespace Webapi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class FriendsController : ControllerBase
+public class FriendsController : AuthorizedController
 {
     private UsersService UsersService { get; set; }
 
-    public FriendsController(UsersService usersService)
+    public FriendsController(HomeRepairContext context, UsersService usersService) : base(context)
     {
         UsersService = usersService;
     }
@@ -22,7 +23,7 @@ public class FriendsController : ControllerBase
     {
         try
         {
-            User user = UsersService.GetById(GetCurrentUserId());
+            User user = CurrentUser();
 
             return Ok(user.Friends);
         } catch (UserNotFoundException ex)
@@ -36,7 +37,7 @@ public class FriendsController : ControllerBase
     {
         try
         {
-            User user = UsersService.GetById(GetCurrentUserId());
+            User user = CurrentUser();
             User Friend = UsersService.GetByEmail(email);
 
             UsersService.AddFriend(user, Friend);
@@ -54,7 +55,7 @@ public class FriendsController : ControllerBase
     {
         try
         {
-            User user = UsersService.GetById(GetCurrentUserId());
+            User user = CurrentUser();
             User Friend = UsersService.GetByEmail(email);
 
             UsersService.RemoveFriend(user, Friend);
@@ -67,13 +68,5 @@ public class FriendsController : ControllerBase
         }
     }
 
-    private int GetCurrentUserId()
-    {
-        var claims = this.User.Claims;
-        var value = claims.FirstOrDefault(x => x.Type == "userId");
-
-        if (value == null) throw new Exception("Ocorreu um erro desconhecido");
-
-        return int.Parse(value.Value);
-    }
+    
 }

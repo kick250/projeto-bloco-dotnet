@@ -37,10 +37,12 @@ public class LoginController : Controller
         return Redirect(returnUrl);
     }
 
-    public ActionResult Logout()
+    public ActionResult Logout([FromQuery] string? returnUrl)
     {
         AccountManager.Logout();
 
-        return Redirect("new");
+        if (returnUrl == null) returnUrl = "/";
+
+        return RedirectToAction(nameof(New), new { ReturnUrl = returnUrl });
     }
 }

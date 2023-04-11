@@ -1,19 +1,20 @@
 ﻿using ApplicationBusiness.Services;
+using Entities;
 using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Repository;
 
 namespace Webapi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class PostsController : ControllerBase
+public class PostsController : AuthorizedController
 {
     private PostsService PostsService { get; set; }
 
-    public PostsController(PostsService postsService)
+    public PostsController(HomeRepairContext context, PostsService postsService) : base(context)
     {
         PostsService = postsService;
     }
@@ -21,7 +22,9 @@ public class PostsController : ControllerBase
     [HttpGet]
     public IActionResult Index()
     {
-        throw new NotImplementedException();
+        User user = CurrentUser();
+
+        return Ok(PostsService.GetPostsFor(user));
     }
 
     [HttpGet("{id}")]
@@ -36,9 +39,9 @@ public class PostsController : ControllerBase
         }
     }
 
-    [HttpPost]
-    public IActionResult Post([FromBody] string value)
-    {
-        throw new NotImplementedException();
-    }
+    //[HttpPost]
+    //public IActionResult Post([FromBody] string value)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }

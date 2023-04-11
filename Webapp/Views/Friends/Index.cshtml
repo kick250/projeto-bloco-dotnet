@@ -1,52 +1,45 @@
 ﻿@using Entities;
 @model List<User>
 
-<!DOCTYPE html>
+<h1>Friends</h1>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>View</title>
-</head>
-<body>
-    <p>
-        <a asp-action="New" asp-controller="Friends">Adicionar amigo</a>
-    </p>
-    <table class="table">
-        <thead>
+<p>
+    <a asp-action="New" asp-controller="Friends">Adicionar amigo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Foto
+            </th>
+            <th>
+                Nome
+            </th>
+            <th>
+                Email
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    Foto
-                </th>
-                <th>
-                    Nome
-                </th>
-                <th>
-                    Email
-                </th>
-                <th></th>
+                <td>
+                    <img src="@item.ProfileImage" style="width: auto; height: 100px">
+                </td>
+                <td>
+                    @item.GetFullName()
+                </td>
+                <td>
+                    @item.GetEmail()
+                </td>
+                <td>
+                    @Html.ActionLink("Detalhes", "Details", new { friendEmail = item.GetEmail() }) |
+                    @Html.ActionLink("Deletar", "Delete", new { friendEmail = item.GetEmail() })
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <img src="@item.ProfileImage" style="width: auto; height: 100px">
-                    </td>
-                    <td>
-                        @item.GetFullName()
-                    </td>
-                    <td>
-                        @item.GetEmail()
-                    </td>
-                    <td>
-                        @Html.ActionLink("Detalhes", "Details", new { friendEmail = item.GetEmail() }) |
-                        @Html.ActionLink("Deletar", "Delete", new { friendEmail = item.GetEmail() })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</body>
-</html>
+        }
+    </tbody>
+</table>
+

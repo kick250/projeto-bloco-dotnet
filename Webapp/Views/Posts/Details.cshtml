@@ -11,41 +11,59 @@
     <h4>Post</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+        <dt class ="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt class="col-sm-2">
+            Image
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Model.ImageUrl" style="height: 350px; width: auto;" />
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Conteudo
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Comment item in Model.Comments ?? new List<Comment>())
-        {
+<h5>Comentários</h5>
+@if (Model.Comments == null)
+{
+    <span class="text-warning">Esse Post não possui comentários</span>
+} else
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @item.Id
-                </td>
-                <td>
-                    @item.Content
-                </td>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Conteudo
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (Comment item in Model.Comments)
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.Content
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

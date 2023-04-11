@@ -58,6 +58,13 @@ public class User
 		return $"{Name} {LastName}";
 	}
 
+	public List<int?> GetFriendIds()
+	{
+		if (Friends == null || Friends.Count == 0) return new List<int?>();
+
+		return Friends.Select(x => x.Id).ToList();
+	}
+
 	public void AddFriend(User friend)
 	{
         if (IsFriendOf(friend) || Id == friend.Id) return;

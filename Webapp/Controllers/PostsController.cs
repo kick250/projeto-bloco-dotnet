@@ -22,31 +22,32 @@ public class PostsController : AuthorizedController
 
     public ActionResult Index()
     {
-        return View();
+        List<Post> posts = PostsAPI.GetAll();
+        return View(posts);
     }
 
     public ActionResult Details(int id)
     {
-       Post post = PostsAPI.GetById(id);
+        Post post = PostsAPI.GetById(id);
 
         return View(post);
     }
 
-    public ActionResult Create()
-    {
-        return View();
-    }
+    //public ActionResult Create()
+    //{
+    //    return View();
+    //}
 
-    [HttpPost]
-    public ActionResult Create(IFormCollection collection)
-    {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
-    }
+    //[HttpPost]
+    //public ActionResult Create(IFormCollection collection)
+    //{
+    //    try
+    //    {
+    //        return RedirectToAction(nameof(Index));
+    //    }
+    //    catch
+    //    {
+    //        return View();
+    //    }
+    //}
 }
