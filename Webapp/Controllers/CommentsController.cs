@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Webapp.APIs;
-using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Entities;
 
 namespace Webapp.Controllers;
 
@@ -20,33 +20,35 @@ public class CommentsController : AuthorizedController
         CommentsAPI.AddToken(SessionToken);
     }
 
-    public ActionResult Index()
+    public ActionResult New(int? postId)
     {
-        return View();
-    }
+        if (postId == null || postId == 0) return Redirect("/");
+        
+        ViewBag.PostId = postId;
 
-    public ActionResult Details(int id)
-    {
-       Comment comment = CommentsAPI.GetById(id);
-
-        return View(comment);
-    }
-
-    public ActionResult Create()
-    {
         return View();
     }
 
     [HttpPost]
-    public ActionResult Create(IFormCollection collection)
+    public ActionResult Create(Comment comment, int postId)
     {
+        if (!ModelState.IsValid)
+        {
+            ViewBag.PostId = postId;
+            return View(nameof(New), comment);
+        }
+
         try
         {
-            return RedirectToAction(nameof(Index));
+            CommentsAPI.Create(comment, postId);
+
+            return Redirect($"/Posts/Details?Id={postId}");
         }
-        catch
+        catch (Exception ex) 
         {
-            return View();
+            ViewBag.Error = ex.Message;
+            ViewBag.PostId = postId;
+            return View(nameof(New), comment);
         }
     }
 }

@@ -35,8 +35,7 @@
                     @item.GetEmail()
                 </td>
                 <td>
-                    @Html.ActionLink("Detalhes", "Details", new { friendEmail = item.GetEmail() }) |
-                    @Html.ActionLink("Deletar", "Delete", new { friendEmail = item.GetEmail() })
+                    @Html.ActionLink("Remover amigo", "Delete", new { friendEmail = item.GetEmail() })
                 </td>
             </tr>
         }

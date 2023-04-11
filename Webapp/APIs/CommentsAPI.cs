@@ -26,4 +26,18 @@ public class CommentsAPI : IAPI
 
         return comment;
     }
+
+    public void Create(Comment comment, int postId)
+    {
+        var commentParams = new
+        {
+            Comment = comment,
+            PostId = postId
+        };
+
+        var response = Post("/Comments", commentParams).Result;
+
+        if (!response.IsSuccessStatusCode)
+            throw new APIErrorException(response);
+    }
 }

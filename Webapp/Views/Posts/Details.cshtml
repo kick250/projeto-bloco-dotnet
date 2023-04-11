@@ -5,38 +5,38 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalhes</h1>
 
 <div>
     <h4>Post</h4>
     <hr />
     <dl class="row">
         <dt class ="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            Titulo
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
+            Conteúdo
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Content)
         </dd>
         <dt class="col-sm-2">
-            Owner
+            Dono
         </dt>
         <dd class="col-sm-10">
             @Model.GetOwnerName()
         </dd>
         <dt class="col-sm-2">
-            Contact info
+            Informações de contato
         </dt>
         <dd class="col-sm-10">
             <a href="mailto:@Model.GetOwnerEmail()" >@Model.GetOwnerEmail()</a>
         </dd>
         <dt class="col-sm-2">
-            Image
+            Imagem
         </dt>
         <dd class="col-sm-10">
             <img src="@Model.ImageUrl" style="height: 350px; width: auto;" />
@@ -44,10 +44,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar para lista</a>
 </div>
 
 <h5>Comentários</h5>
+<a asp-controller="Comments" asp-action="New" asp-route-postId="@Model.Id">Adicionar contato</a>
+
 @if (Model.Comments == null)
 {
     <span class="text-warning">Esse Post não possui comentários</span>
@@ -57,10 +59,10 @@
         <thead>
             <tr>
                 <th>
-                    Id
+                    Dono
                 </th>
                 <th>
-                    Conteudo
+                    Conteúdo
                 </th>
             </tr>
         </thead>
@@ -69,7 +71,7 @@
             {
                 <tr>
                     <td>
-                        @item.Id
+                        @item.GetOwnerName()
                     </td>
                     <td>
                         @item.Content

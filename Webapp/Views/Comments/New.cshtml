@@ -9,13 +9,16 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddComments" asp-controller="Comments">
+        <form asp-action="Create" asp-controller="Comments">
             <div class="text-danger">@ViewBag.Error</div>
             <div class="form-group">
-                <label for="Content" class="input-group-text">Comentário</label>
-                <textarea class="form-control" asp-for="Content" aria-label="With textarea" required></textarea>
-                <span asp-validation-for="Content" class="text-info">Comentários...</span>
+                <label for="Content" class="form-label">Conteúdo do comentário</label>
+                <textarea class="form-control" asp-for="Content" aria-label="With textarea" rows="5" cols="33">
+
+                </textarea>
+                <span asp-validation-for="Content" class="text-info"></span>
             </div>
+            <input id="PostId" name="PostId" value="@ViewBag.PostId" type="hidden"/>
             <div class="form-group">
                 <input type="submit" value="Comentar" class="btn btn-primary" />
             </div>

@@ -2,7 +2,6 @@
 using Entities;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace ApplicationBusiness.Services;
 public class CommentsService
@@ -27,5 +26,10 @@ public class CommentsService
 
         return comment;
     }
-    
+
+    public void Create(Comment comment)
+    {
+        Context.Comments.Add(comment);
+        Context.SaveChanges();
+    }
 }

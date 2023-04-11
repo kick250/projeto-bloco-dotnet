@@ -1,27 +1,26 @@
 ﻿using ApplicationBusiness.Services;
+using Entities;
 using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Repository;
+using Webapi.Requests;
 
 namespace Webapi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class CommentsController : ControllerBase
+public class CommentsController : AuthorizedController
 {
     private CommentsService CommentsService { get; set; }
+    private PostsService PostsService { get; set; }
 
-    public CommentsController(CommentsService commentsService)
+    public CommentsController(HomeRepairContext context, CommentsService commentsService, PostsService postsService) 
+        : base(context)
     {
         CommentsService = commentsService;
-    }
-
-    [HttpGet]
-    public IActionResult Index()
-    {
-        throw new NotImplementedException();
+        PostsService = postsService;
     }
 
     [HttpGet("{id}")]
@@ -37,8 +36,22 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] string value)
+    public IActionResult Post([FromBody] CommentRequest request)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid) return BadRequest(request);
+
+        try
+        {
+            Comment comment = request.GetComment();
+            comment.Owner = CurrentUser();
+            comment.Post = PostsService.GetById(request.GetPostId());
+
+            CommentsService.Create(comment);
+
+            return Ok("Esse comentário foi criado.");
+        } catch (RequiredParameterNotPresent ex)
+        {
+            return BadRequest(new { Error = ex.Message });
+        }
     }
 }
