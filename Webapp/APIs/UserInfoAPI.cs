@@ -26,4 +26,12 @@ public class UserInfoAPI : IAPI
 
         return user;
     }
+
+    public void DeleteMyUser()
+    {
+        var response = Delete($"/UserInfo", new {}).Result;
+
+        if (!response.IsSuccessStatusCode)
+            throw new APIErrorException(response);
+    }
 }

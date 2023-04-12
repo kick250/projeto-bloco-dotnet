@@ -15,7 +15,7 @@ public class UsersService
         Context = context;
         Users = context.Users
             .Include(user => user.Friends)
-            .Include(user => user.Posts);
+            .Include(user => user.Posts).ThenInclude(post => post.Comments);
     }
 
     public User GetById(int id)
@@ -50,6 +50,21 @@ public class UsersService
         Context.SaveChanges();
     }
 
+    public void Delete(User userToDelete)
+    {
+        try
+        {
+            User user = GetById(int.Parse($"{userToDelete.Id}"));
+
+            DeleteUserFriends(user);
+            DeleteUserPosts(user);
+            DeleteUserComments(user);
+
+            Context.Users.Remove(user);
+            Context.SaveChanges();
+        } catch (UserNotFoundException) { }
+    }
+
     public void AddFriend(User user, User Friend)
     {
         user.AddFriend(Friend);
@@ -75,6 +90,35 @@ public class UsersService
     private void Update(User user)
     {
         Context.Update(user);
+        Context.SaveChanges();
+    }
+
+    private void DeleteUserFriends(User user)
+    {
+        user.Friends.Clear();
+        Update(user);
+    }
+
+    private void DeleteUserPosts(User user)
+    {
+        foreach (Post post in user.Posts)
+        {
+            foreach (Comment comment in post.Comments)
+            {
+                Context.Comments.Remove(comment);
+            }
+            Context.SaveChanges();
+            Context.Posts.Remove(post);
+        }
+        Context.SaveChanges();
+    }
+
+    private void DeleteUserComments(User user)
+    {
+        IEnumerable<Comment> userComments = Context.Comments.Where(comment => comment.Owner == user);
+        
+        foreach (Comment comment in userComments)
+            Context.Comments.Remove(comment);
         Context.SaveChanges();
     }
 

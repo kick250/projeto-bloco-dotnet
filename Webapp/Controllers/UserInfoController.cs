@@ -47,21 +47,18 @@ public class UserInfoController : AuthorizedController
     //    }
     //}
 
-    //public ActionResult Delete(int id)
-    //{
-    //    return View();
-    //}
+    public ActionResult Delete(int id)
+    {
+        User user = UserInfoAPI.GetMyInfo();
 
-    //[HttpPost]
-    //public ActionResult Delete(int id, IFormCollection collection)
-    //{
-    //    try
-    //    {
-    //        return RedirectToAction(nameof(Index));
-    //    }
-    //    catch
-    //    {
-    //        return View();
-    //    }
-    //}
+        return View(user);
+    }
+
+    [HttpPost]
+    public ActionResult Destroy()
+    {
+        UserInfoAPI.DeleteMyUser();
+
+        return Redirect("/Login/Logout");
+    }
 }

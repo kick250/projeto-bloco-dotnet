@@ -32,9 +32,13 @@ public class UserInfoController : AuthorizedController
         throw new NotImplementedException();
     }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    [HttpDelete]
+    public IActionResult Delete()
     {
-        throw new NotImplementedException();
+        User user = CurrentUser();
+
+        UsersService.Delete(user);
+
+        return NoContent();
     }
 }
