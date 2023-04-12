@@ -13,8 +13,7 @@ public class User
 	 EmailAddress(ErrorMessage = "O email deve estar no formato válido."),
      JsonPropertyName("username")]
 	public string? Username { get; set; }
-	[Required(ErrorMessage = "A senha é necessária."),
-	 JsonPropertyName("password")]
+	[JsonPropertyName("password")]
 	public string? Password { get; set; }
 	[Required(ErrorMessage = "O nome do usuário é necessário."),
      JsonPropertyName("name")]
@@ -91,7 +90,7 @@ public class User
 		Name = user.Name;
 		LastName = user.LastName;
 		ProfileImage = user.ProfileImage;
-		if (user.Password != null) 
+		if (!String.IsNullOrEmpty(user.Password))
 			SetPassword(user.Password);
 	}
 
