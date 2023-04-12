@@ -50,6 +50,16 @@ public class UsersService
         Context.SaveChanges();
     }
 
+    public void Update(User userUpdated)
+    {
+        User user = GetById(int.Parse($"{userUpdated.Id}"));
+
+        user.UpdateFrom(userUpdated);
+
+        Context.Update(user);
+        Context.SaveChanges();
+    }
+
     public void Delete(User userToDelete)
     {
         try
@@ -86,12 +96,6 @@ public class UsersService
     }
 
     #region private
-
-    private void Update(User user)
-    {
-        Context.Update(user);
-        Context.SaveChanges();
-    }
 
     private void DeleteUserFriends(User user)
     {

@@ -1,5 +1,6 @@
 ﻿using ApplicationBusiness.Services;
 using Entities;
+using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
@@ -26,10 +27,17 @@ public class UserInfoController : AuthorizedController
         return Ok(user);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] string value)
+    [HttpPut]
+    public IActionResult Put(User user)
     {
-        throw new NotImplementedException();
+        try
+        {
+            UsersService.Update(user);
+            return Ok(user);
+        } catch (UserNotFoundException ex)
+        {
+            return NotFound(new { Error = ex.Message });
+        }
     }
 
     [HttpDelete]

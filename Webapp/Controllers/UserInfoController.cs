@@ -29,23 +29,36 @@ public class UserInfoController : AuthorizedController
         return View(user);
     }
 
-    //public ActionResult Edit(int id)
-    //{
-    //    return View();
-    //}
+    public ActionResult Edit()
+    {
+        User user = UserInfoAPI.GetMyInfo();
+        user.Password = string.Empty;
+        return View(user);
+    }
 
-    //[HttpPost]
-    //public ActionResult Edit(int id, IFormCollection collection)
-    //{
-    //    try
-    //    {
-    //        return RedirectToAction(nameof(Index));
-    //    }
-    //    catch
-    //    {
-    //        return View();
-    //    }
-    //}
+    [HttpPost]
+    public ActionResult Update(User user, IFormFile? ProfileImageFile)
+    {
+        if (!ModelState.IsValid) return View(nameof(Edit), user);
+
+        try 
+        {
+            if (ProfileImageFile != null)
+            {
+                string imageUrl = ImagesAPI.UploadImage(ProfileImageFile);
+                user.ProfileImage = imageUrl;
+            }
+
+            UserInfoAPI.Update(user);
+
+            return RedirectToAction(nameof(Details));
+        }
+        catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+            return View(nameof(Edit), user);
+        }
+    }
 
     public ActionResult Delete(int id)
     {

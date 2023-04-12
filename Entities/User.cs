@@ -86,5 +86,14 @@ public class User
 		return Friends.Contains(user);
 	}
 
+	public void UpdateFrom(User user)
+	{
+		Name = user.Name;
+		LastName = user.LastName;
+		ProfileImage = user.ProfileImage;
+		if (user.Password != null) 
+			SetPassword(user.Password);
+	}
+
 }
 
