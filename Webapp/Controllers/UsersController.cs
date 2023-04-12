@@ -40,7 +40,7 @@ public class UsersController : Controller
         }
         catch (APIErrorException ex)
         {
-            ViewBag.Error = ex.GetMessage();
+            ViewBag.Error = ex.Message;
             return View("New", user);
         }
 

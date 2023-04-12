@@ -1,8 +1,6 @@
 ﻿namespace Infrastructure.Exceptions;
 public class UserNotFoundException : Exception
 {
-    public string GetMessage()
-    {
-        return "Esse usuário não foi encontrado.";
-    }
+    public override string Message => "Esse usuário não foi encontrado.";
+
 }

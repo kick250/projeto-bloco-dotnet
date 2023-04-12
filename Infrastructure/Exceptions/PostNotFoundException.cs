@@ -2,8 +2,5 @@
 
 public class PostNotFoundException : Exception
 {
-    public string GetMessage()
-    {
-        return "Esse post não foi encontrado";
-    }
+    public override string Message => "Esse post não foi encontrado";
 }

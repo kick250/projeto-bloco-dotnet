@@ -15,8 +15,5 @@ public class APIErrorException : Exception
             APIError = result.Error;
     }
 
-    public string GetMessage()
-    {
-        return APIError;
-    }
+    public override string Message => APIError;
 }

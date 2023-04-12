@@ -29,7 +29,7 @@ public class UsersController : ControllerBase
             return Created("", user);
         } catch (UsernameInUseException ex)
         {
-            return BadRequest(new { Error = ex.GetMessage() });
+            return BadRequest(new { Error = ex.Message });
         }
     }
 }

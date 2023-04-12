@@ -2,8 +2,5 @@
 
 public class UsernameInUseException : Exception
 {
-    public string GetMessage()
-    {
-        return "Esse email já está em uso.";
-    }
+    public override string Message => "Esse email já está em uso.";
 }

@@ -31,7 +31,7 @@ public class CommentsController : AuthorizedController
             return Ok(CommentsService.GetById(id));
         } catch (CommentNotFoundException ex)
         {
-            return NotFound(new { Error = ex.GetMessage() });
+            return NotFound(new { Error = ex.Message });
         }
     }
 

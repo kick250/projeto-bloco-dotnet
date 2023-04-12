@@ -28,7 +28,7 @@ public class FriendsController : AuthorizedController
             return Ok(user.Friends);
         } catch (UserNotFoundException ex)
         {
-            return NotFound(new { Error = ex.GetMessage() });
+            return NotFound(new { Error = ex.Message });
         }
     }
 
@@ -46,7 +46,7 @@ public class FriendsController : AuthorizedController
         }
         catch (UserNotFoundException ex)
         {
-            return NotFound(new { Error = ex.GetMessage() });
+            return NotFound(new { Error = ex.Message });
         }
     }
 
@@ -64,7 +64,7 @@ public class FriendsController : AuthorizedController
         }
         catch (UserNotFoundException ex)
         {
-            return NotFound(new { Error = ex.GetMessage() });
+            return NotFound(new { Error = ex.Message });
         }
     }
 

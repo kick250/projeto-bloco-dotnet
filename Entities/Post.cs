@@ -33,5 +33,12 @@ public class Post
 
         return Owner.Username == userEmail;
     }
+
+    public void UpdateFrom(Post post)
+    {
+        Title = post.Title;
+        Content = post.Content;
+        ImageUrl = post.ImageUrl;
+    }
 }
 

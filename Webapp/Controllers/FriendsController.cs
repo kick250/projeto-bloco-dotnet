@@ -49,7 +49,7 @@ public class FriendsController : AuthorizedController
             return RedirectToAction("Index");
         } catch (APIErrorException ex)
         {
-            ViewBag.Error = ex.GetMessage();
+            ViewBag.Error = ex.Message;
             return View("New", email);
         }
     }
@@ -77,7 +77,7 @@ public class FriendsController : AuthorizedController
         }
         catch (APIErrorException ex)
         {
-            ViewBag.Error = ex.GetMessage();
+            ViewBag.Error = ex.Message;
             return View("new", friendEmail);
         }
     } 

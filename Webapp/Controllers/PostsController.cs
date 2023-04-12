@@ -22,13 +22,13 @@ public class PostsController : AuthorizedController
         PostsAPI.AddToken(SessionToken);
     }
 
-    public ActionResult Index()
+    public IActionResult Index()
     {
         List<Post> posts = PostsAPI.GetAll();
         return View(posts);
     }
 
-    public ActionResult Details(int? id)
+    public IActionResult Details(int? id)
     {
         if (id == null) return RedirectToAction(nameof(Index));
 
@@ -43,7 +43,7 @@ public class PostsController : AuthorizedController
     }
 
     [HttpPost]
-    public ActionResult Create(Post post, IFormFile imageFile)
+    public IActionResult Create(Post post, IFormFile imageFile)
     {
         if (!ModelState.IsValid) return View(nameof(New), post);
 
@@ -62,8 +62,38 @@ public class PostsController : AuthorizedController
         }
     }
 
+    public IActionResult Edit(int? id)
+    {
+        if (id == null) return RedirectToAction(nameof(Index));
+
+        Post post = PostsAPI.GetById(int.Parse($"{id}"));
+        return View(post);
+    }
+
+    public IActionResult Update(Post post, IFormFile? imageFile)
+    {
+        if (!ModelState.IsValid) return View(nameof(Edit), post);
+
+        try
+        {
+            if (imageFile != null)
+            {
+                string imageUrl = ImagesAPI.UploadImage(imageFile);
+                post.ImageUrl = imageUrl;
+            }
+
+            PostsAPI.Update(post);
+
+            return RedirectToAction(nameof(Details), new { Id = post.Id });
+        } catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+            return View(nameof(Edit), post);
+        }
+    }
+
     [HttpPost]
-    public ActionResult Delete(int id)
+    public IActionResult Delete(int id)
     {
         PostsAPI.DeleteById(id);
 

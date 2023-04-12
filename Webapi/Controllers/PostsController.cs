@@ -3,6 +3,7 @@ using Entities;
 using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Repository;
 
 namespace Webapi.Controllers;
@@ -35,12 +36,12 @@ public class PostsController : AuthorizedController
             return Ok(PostsService.GetById(id));
         } catch (PostNotFoundException ex)
         {
-            return NotFound(new { Error = ex.GetMessage() });
+            return NotFound(new { Error = ex.Message });
         }
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Post post)
+    public IActionResult Create([FromBody] Post post)
     {
         if (!ModelState.IsValid) return BadRequest(post);
 
@@ -51,6 +52,15 @@ public class PostsController : AuthorizedController
         return Created("Post Criado", new {});
     }
 
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, [FromBody] Post post)
+    {
+        if (!ModelState.IsValid) return BadRequest(post);
+
+        PostsService.Update(id, post);
+        return Ok("Post Atualizado");
+    }
+
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
@@ -59,7 +69,7 @@ public class PostsController : AuthorizedController
             PostsService.DeleteById(id);
 
             return NoContent();
-        } catch (PostNotFoundException ex)
+        } catch (PostNotFoundException)
         {
             return NoContent();
         }

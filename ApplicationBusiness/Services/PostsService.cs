@@ -41,6 +41,15 @@ public class PostsService
         Context.SaveChanges();
     }
 
+    public void Update(int id, Post updatedPost)
+    {
+        Post post = GetById(id);
+        post.UpdateFrom(updatedPost);
+
+        Context.Posts.Update(post);
+        Context.SaveChanges();
+    }
+
     public void DeleteById(int id)
     {
         Post post = GetById(id);

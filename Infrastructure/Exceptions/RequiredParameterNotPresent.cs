@@ -9,8 +9,5 @@ public class RequiredParameterNotPresent : Exception
         ParameterName = parameterName;
     }
 
-    public string GetErrorMessage()
-    {
-        return $"O parametro {ParameterName} é necessário.";
-    }
+    public override string Message => $"O parametro {ParameterName} é necessário.";
 }
