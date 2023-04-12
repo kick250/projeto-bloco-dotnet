@@ -20,6 +20,7 @@ public class Program
         builder.Services.AddScoped<FriendsAPI>();
         builder.Services.AddScoped<PostsAPI>();
         builder.Services.AddScoped<CommentsAPI>();
+        builder.Services.AddScoped<UserInfoAPI>();
 
         builder.Services.AddTransient<IUserStore<Account>, AccountRepository>();
         builder.Services.AddTransient<IRoleStore<AccountRole>, AccountRoleRepository>();

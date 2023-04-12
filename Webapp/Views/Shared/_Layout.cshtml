@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="d-flex mx-3 align-content-center align-items-center">
-                    <p class="my-0 py-0 mx-1">@this.User.Identity.Name</p>
+                    <a asp-action="Details" asp-controller="UserInfo" class="my-0 py-0 mx-1">@this.User.Identity.Name</a>
                     <form asp-action="Logout" asp-controller="Login">
                         <button class="btn btn-warning" type="submit">Logout</button>
                     </form>
