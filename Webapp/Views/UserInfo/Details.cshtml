@@ -30,10 +30,10 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProfileImage)
+            Image
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProfileImage)
+            <img src="@Model.ProfileImage" style="height: 150px; width: auto;"/>
         </dd>
     </dl>
 </div>
