@@ -78,13 +78,15 @@ public class UsersService
     public void AddFriend(User user, User Friend)
     {
         user.AddFriend(Friend);
-        Update(user);
+        Context.Update(user);
+        Context.SaveChanges();
     }
 
     public void RemoveFriend(User user, User Friend)
     {
         user.RemoveFriend(Friend);
-        Update(user);
+        Context.Update(user);
+        Context.SaveChanges();
     }
 
     public User? Authenticate(string username, string password)
