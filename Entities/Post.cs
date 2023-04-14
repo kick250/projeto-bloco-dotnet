@@ -6,7 +6,7 @@ public class Post
     public int? Id { get; set; }
     [Required(ErrorMessage = "Um post precisa de titulo")]
     public string? Title { get; set; }
-    [Required(ErrorMessage = "Um conteúdo precisa de titulo")]
+    [Required(ErrorMessage = "Um post precisa de conteudo")]
     public string? Content { get; set; }
     public string? ImageUrl { get; set; }
     public User? Owner { get; set; }    
